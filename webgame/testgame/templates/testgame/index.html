@@ -1,0 +1,36 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="{% static 'favicon/test.ico' %}" type="image/x-icon">
+    <title>Test Game</title>
+</head>
+<body>
+    <h1>Test Game</h1>
+    
+    <p>Room id: </p>
+    
+    <textarea id="chat-log" cols="100" rows="20"></textarea><br>
+    <input type="text" name="chat-input" id="chat-input">
+    <input type="button" value="Send" id="chat-send">
+    <br><br>
+
+    <p id="game-message"></p>
+    <div id="game-input">
+        <input type="button" value="rock">
+        <input type="button" value="scissors">
+        <input type="button" value="paper">
+    </div>
+    <br>
+    <input type="button" id="rematch" value="rematch" style="display: hidden;">
+
+
+    <p><a href="{% url 'lobby:index' %}">Back to lobby</a></p>
+    
+    <script src="{% static 'testgame/script.js' %}"></script>
+</body>
+</html>
