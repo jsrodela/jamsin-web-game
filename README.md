@@ -42,13 +42,27 @@ cd jamsin-web-game
 pip install -r requirements.txt
 ```
 
-4. Migrate
+4. Setting 파일 생성
+
+jamsin-web-game/webgame/settings.json
+
+내용 예시:
+```json
+{
+  "SECRET_KEY": "django-insecure-j1^3#@hc)7yu6q8zsb4fch9+5en!cp!%ok8*up8npbb36up_go",
+  "DEBUG": true,
+  "ALLOWED_HOSTS": ["127.0.0.1", "localhost"],
+  "Production": false
+}
+```
+
+5. Migrate
 
 ```
 python manage.py migrate
 ```
 
-5. 서버 실행
+6. 서버 실행
 
 ```
 python manage.py runserver
