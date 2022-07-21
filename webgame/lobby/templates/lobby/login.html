@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Log in</title>
+</head>
+<body>
+    <p>This is a login page.</p>
+    <form id="login" method = "POST" action="{% url 'lobby:login' %}">
+        {% csrf_token %}
+        {{ form }}
+        <input type="submit" value="Log in">
+    </form>
+    <a href="{% url 'lobby:index' %}">Back to lobby</a>
+</body>
+</html>
