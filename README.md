@@ -15,19 +15,26 @@ cd jamsin-web-game
 
 <br>
 
-2. redis 설치하기
+2. Redis 실행하기
 
-[Redis for windwos](https://github.com/tporadowski/redis/releases)
+    1. [Redis for windwos](https://github.com/tporadowski/redis/release) 설치
+
+        또는 
+
+    2. [Docker](https://www.docker.com/)에서 redis 실행
+    ```
+    docker run -p 6379:6379 -d redis:5
+    ```
 
 <br>
 
-3. requirements 설치하기
+3. Requirements 설치하기
 
 ```
 pip install -r requirements.txt
 ```
 
-4. migrate
+4. Migrate
 
 ```
 python manage.py migrate
