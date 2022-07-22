@@ -1,18 +1,13 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sign up</title>
-</head>
-<body>
-    <p>This is a sign-up page.</p>
-    <form id="login" method = "POST" action="{% url 'lobby:signup' %}">
-        {% csrf_token %}
-        {{ form }}
-        <input type="submit" value="Sign up">
-    </form>
-    <a href="{% url 'lobby:index' %}">Back to lobby</a>
-</body>
-</html>
+{% extends 'base.html' %}
+
+{% block title %}Sign up{% endblock title %}
+
+{% block content %}
+<p>This is a sign-up page.</p>
+<form id="login" method = "POST" action="{% url 'lobby:signup' %}">
+    {% csrf_token %}
+    {{ form }}
+    <input type="submit" value="Sign up">
+</form>
+<a href="{% url 'lobby:index' %}">Back to lobby</a>
+{% endblock content %}

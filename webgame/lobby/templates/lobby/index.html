@@ -1,25 +1,15 @@
-{% load static %}
+{% extends 'base.html' %}
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="shortcut icon" href="{% static 'favicon/test.ico' %}" type="image/x-icon">
-    <title>Lobby</title>
-</head>
-<body>
-    <h1>Lobby Page</h1>
-    {% if user.is_authenticated %}
-        <p>Logged in as {{ user.username }}</p>
-        <a href="{% url 'lobby:logout' %}">Sign out</a>
-    {% else %}
-        <p>
-            <a href="{% url 'lobby:login' %}">Sign in</a>
-            <a href="{% url 'lobby:signup' %}">Sign up</a>
-        </p>
-    {% endif %}
-    <p><a href="{% url 'testgame:index' %}">Play testgame</a></p>
-</body>
-</html>
+{% block content %}
+<h1>Lobby Page</h1>
+{% if user.is_authenticated %}
+    <p>Logged in as {{ user.username }}</p>
+    <a href="{% url 'lobby:logout' %}">Sign out</a>
+{% else %}
+    <p>
+        <a href="{% url 'lobby:login' %}">Sign in</a>
+        <a href="{% url 'lobby:signup' %}">Sign up</a>
+    </p>
+{% endif %}
+<p><a href="{% url 'testgame:index' %}">Play testgame</a></p>
+{% endblock content %}
