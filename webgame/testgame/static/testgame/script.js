@@ -1,4 +1,4 @@
-const chatSocket = new WebSocket("ws://" + window.location.host + "/ws/chat/");
+const chatSocket = new WebSocket("ws://" + window.location.host + "/ws/testgame/");
 
 const gameMessageElm = document.querySelector("#game-message");
 const rematchBtn = document.querySelector("#rematch");

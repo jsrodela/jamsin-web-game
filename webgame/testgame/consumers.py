@@ -1,7 +1,8 @@
 import json
 from channels.generic.websocket import AsyncWebsocketConsumer
 
-class ChatConsumer(AsyncWebsocketConsumer):
+
+class TestgameConsumer(AsyncWebsocketConsumer):
     async def connect(self):
         self.room_group_name = 'testgame'
 
@@ -10,7 +11,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
             self.room_group_name,
             self.channel_name
         )
-        
+
         await self.accept()
 
     async def disconnect(self, close_code):
@@ -22,7 +23,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
 
     async def receive(self, text_data):
         text_data_json = json.loads(text_data)
-        
+
         if 'message' in text_data_json.keys():
             message = text_data_json['message']
 
@@ -34,11 +35,11 @@ class ChatConsumer(AsyncWebsocketConsumer):
                     'message': message
                 }
             )
-        
+
         if 'play' in text_data_json.keys():
             move = text_data_json['play']
             client = self.scope['client']
-            
+
             await self.channel_layer.group_send(
                 self.room_group_name,
                 {
@@ -47,9 +48,9 @@ class ChatConsumer(AsyncWebsocketConsumer):
                     'move': move
                 }
             )
-            
-    
+
     # Receive message from room group
+
     async def chat_message(self, event):
         message = event['message']
 
@@ -57,12 +58,11 @@ class ChatConsumer(AsyncWebsocketConsumer):
         await self.send(text_data=json.dumps({
             'message': message
         }))
-        
-    
+
     async def game_message(self, event):
         if event['client'] == self.scope['client']:
             return
-        
+
         move = event['move']
         await self.send(text_data=json.dumps({
             'move': move

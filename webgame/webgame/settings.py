@@ -44,6 +44,8 @@ if settings['Production']:
 INSTALLED_APPS = [
     'lobby.apps.LobbyConfig',
     'testgame.apps.TestgameConfig',
+    'minesweeper.apps.MinesweeperConfig',
+    'omok.apps.OmokConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -67,7 +69,7 @@ ROOT_URLCONF = 'webgame.urls'
 
 LOGIN_URL = '/login/'
 LOGIN_REDIRECT_URL = '/'
-LOGOUT_REDIRECT_URL='/'
+LOGOUT_REDIRECT_URL = '/'
 
 TEMPLATES = [
     {
