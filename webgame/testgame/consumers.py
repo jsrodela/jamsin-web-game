@@ -85,7 +85,6 @@ class TestgameConsumer(WebsocketConsumer):
     # Receive message from room group
 
     def chat_message(self, event):
-        print(self.scope['user'], event['message'])
         message = event['message']
 
         # Send message to WebSocket
