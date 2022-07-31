@@ -1,7 +1,10 @@
-const chatSocket = new WebSocket("ws://" + window.location.host + "/ws/testgame/");
+const chatSocket = new WebSocket(
+  "ws://" + window.location.host + "/ws/testgame/"
+);
 
-const gameMessageElm = document.querySelector("#game-message");
-const rematchBtn = document.querySelector("#rematch");
+const gameMessageElm = document.getElementById("game-message");
+const rematchBtn = document.getElementById("rematch");
+const roomIdP = document.getElementById("room-id");
 
 const winningMoves = [
   ["rock", "scissors"],
@@ -39,6 +42,9 @@ function checkWin() {
 
 chatSocket.onmessage = function (e) {
   const data = JSON.parse(e.data);
+  if (data.room_id) {
+    roomIdP.innerText = "Room id: " + data.room_id;
+  }
   if (data.message) {
     document.querySelector("#chat-log").value += data.message + "\n";
   }
