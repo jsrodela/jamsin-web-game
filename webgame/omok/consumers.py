@@ -1,7 +1,7 @@
-from channels.generic.websocket import AsyncWebsocketConsumer
+from channels.generic.websocket import WebsocketConsumer
 
 
-class OmokConsumer(AsyncWebsocketConsumer):
+class OmokConsumer(WebsocketConsumer):
     async def connect(self):
         await self.accept()
     
