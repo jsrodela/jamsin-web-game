@@ -1,4 +1,4 @@
-const chatSocket = new WebSocket(
+const socket = new WebSocket(
   "ws://" + window.location.host + "/ws/testgame/"
 );
 
@@ -40,7 +40,7 @@ function checkWin() {
   rematchBtn.style.display = "";
 }
 
-chatSocket.onmessage = function (e) {
+socket.onmessage = function (e) {
   const data = JSON.parse(e.data);
   if (data.room_id) {
     roomIdP.innerText = "Room id: " + data.room_id;
@@ -56,7 +56,7 @@ chatSocket.onmessage = function (e) {
   }
 };
 
-chatSocket.onclose = function (e) {
+socket.onclose = function (e) {
   console.error("Chat socket closed unexpectedly");
 };
 
@@ -71,7 +71,7 @@ document.querySelector("#chat-input").onkeyup = function (e) {
 document.querySelector("#chat-send").onclick = function (e) {
   const messageInputDom = document.querySelector("#chat-input");
   const message = messageInputDom.value;
-  chatSocket.send(
+  socket.send(
     JSON.stringify({
       message: message,
     })
@@ -83,7 +83,7 @@ document.querySelectorAll("#game-input > input").forEach((element) => {
   element.addEventListener("click", function (e) {
     if (!waiting) {
       playerMove = this.value;
-      chatSocket.send(
+      socket.send(
         JSON.stringify({
           play: this.value,
         })
