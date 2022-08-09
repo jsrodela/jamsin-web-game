@@ -97,6 +97,12 @@
 
 ### 설치 에러 및 해결법
 
+`error: Microsoft Visual C++ 14.0 or greater is required.`
+
+ - C++ 빌드 툴 설치: https://visualstudio.microsoft.com/visual-cpp-build-tools/
+ 
+<br>
+
 `pip install channels`에서 cryptography build 에러 (Linux 환경)
 
 - ffi.h: No such file or directory
