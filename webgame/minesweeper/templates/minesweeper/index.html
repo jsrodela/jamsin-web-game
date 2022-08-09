@@ -1,94 +1,22 @@
-<html>
-    <meta charset="utf-8">
-    <body oncontextmenu='return false' onselectstart='return false' ondragstart='return false'>
-      <style>
-        .table_border {
-        border: 1px solid #000000;
-        border-collapse: collapse;
-        }
-        .covered {
-          width: 50px;
-          height: 50px;
-          border: 1px solid #000000;
-          background-color: #d3d3d3;
-          text-align: center;
-          font-size: 30px;
-        }
-        .uncovered {
-          width: 50px;
-          height: 50px;
-          border: 1px solid #000000;
-          background-color: #ffffff;
-          text-align: center;
-          font-size: 30px;
-        }
-        .button {
-          border: 1px solid #000000;
-          width: 40px;
-          height: 25px;
-          margin-top: 10px;
-          margin-left: 200px;
-        }
-      </style>
-    
-      <div id="area">
-        크기: <input type="number" id="size"><br/>
-        지뢰 개수: <input type="number" id="num">
-        <div id="startBtn" class="button"><strong>시작</strong></div>
-      </div>
-    
-      <script>
-        var size;
-        var num;
-        var tdlist;
-        const startBtn = document.getElementById("startBtn");
-        startBtn.addEventListener("click", set_game);
-    
-        function set_game()
-        {
-          size = parseInt(document.getElementById("size").value); //판 사이즈
-          num = parseInt(document.getElementById("num").value); //지뢰개수
-          set_table(size);
-    
-          tdlist = document.getElementById("game_table").getElementsByTagName('td'); //테이블 td태그들
-          //window.alert("!");
-          for (var i=0;i<size;i++)
-          {
-            for (var j=0;j<size;j++)
-            {
-              tdlist[size*i+j].addEventListener("click", left_click);
-              tdlist[size*i+j].addEventListener("contextmenu", right_click);
-            }
-          }
-        }
-    
-        function set_table(s) //int
-        {
-          var tag = "<table id=\"game_table\" class=\"table_border\">";
-          for (var i=1;i<=s;i++)
-          {
-            tag += "<tr>";
-            for (var j=1;j<=s;j++)
-              tag += "<td id="+((i-1)*s+j-1)+" class=\"covered\"></td>";
-            tag += "</tr>";
-          }
-          tag += "</table>";
-          document.getElementById("area").innerHTML = tag;
-        }
-    
-        function left_click()
-        {
-          if (this.innerHTML!="🚩")
-            this.className="uncovered";
-        }
-    
-        function right_click()
-        {
-          if (this.className=="covered")
-            this.innerHTML="🚩";
-        }
-    
-      </script>
-    </body>
-    </html>
-    
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %}minesweeper{% endblock title %}
+{% block head %}
+<link rel="stylesheet" href="{% static 'minesweeper/style.css' %}">
+{% endblock head %}
+
+{% block content %}
+<h1>Play minesweeper game</h1>
+
+<div id="area">
+    크기: <input type="number" id="size"><br/>
+    지뢰 개수: <input type="number" id="num">
+    <div id="startBtn" class="button"><strong>시작</strong></div>
+</div>
+
+<p><a href="{% url 'lobby:index' %}">Back to lobby</a></p>
+
+<script src="{% static 'minesweeper/script.js' %}"></script>
+{% endblock content %}

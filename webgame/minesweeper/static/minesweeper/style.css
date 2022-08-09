@@ -1,0 +1,28 @@
+.table_border {
+  border: 1px solid #000000;
+  border-collapse: collapse;
+}
+
+td {
+  width: 50px;
+  height: 50px;
+  border: 1px solid #000000;
+  text-align: center;
+  font-size: 30px;
+}
+
+.covered {
+  background-color: #d3d3d3;
+}
+
+.uncovered {
+  background-color: #ffffff;
+}
+
+.button {
+  border: 1px solid #000000;
+  width: 40px;
+  height: 25px;
+  margin-top: 10px;
+  margin-left: 200px;
+}
