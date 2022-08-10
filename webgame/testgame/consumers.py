@@ -3,13 +3,13 @@ from channels.generic.websocket import WebsocketConsumer
 from django.contrib.auth.models import User
 from asgiref.sync import async_to_sync
 
-from .models import Game
+from .models import Testgame
 
 
 class TestgameConsumer(WebsocketConsumer):
     def connect(self):
         # Search for game
-        games = Game.objects.filter(opponent=None)
+        games = Testgame.objects.filter(opponent=None)
         user = User.objects.get(username=self.scope['user'])
         for game in games:
             if game.creator != user:
@@ -18,7 +18,7 @@ class TestgameConsumer(WebsocketConsumer):
                 break
         else:
             # Create new game
-            game = Game.create(user)
+            game = Testgame.create(user)
 
         self.game = game
         self.room_group_name = f'testgame_{game.id}'
