@@ -4,7 +4,6 @@ from channels.security.websocket import AllowedHostsOriginValidator
 
 import minesweeper.routing
 import omok.routing
-import testgame.routing
 
 import os
 
@@ -15,7 +14,6 @@ application = ProtocolTypeRouter({
         URLRouter([
             *minesweeper.routing.websocket_urlpatterns,
             *omok.routing.websocket_urlpatterns,
-            *testgame.routing.websocket_urlpatterns,
         ])
     ))
 })

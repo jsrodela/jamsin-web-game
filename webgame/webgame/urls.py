@@ -6,7 +6,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('minesweeper/', include('minesweeper.urls')),
     path('omok/', include('omok.urls')),
-    path('testgame/', include('testgame.urls')),
     path('lobby/', RedirectView.as_view(url='/')),
     path('', include('lobby.urls'))
 ]

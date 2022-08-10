@@ -43,7 +43,6 @@ if settings['Production']:
 
 INSTALLED_APPS = [
     'lobby.apps.LobbyConfig',
-    'testgame.apps.TestgameConfig',
     'minesweeper.apps.MinesweeperConfig',
     'omok.apps.OmokConfig',
     'django.contrib.admin',
