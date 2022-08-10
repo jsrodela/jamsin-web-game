@@ -38,7 +38,7 @@ class TestgameConsumer(WebsocketConsumer):
             self.game.delete()
         else:
             self.game.complete()
-            print(self.game.created,self.game.completed)
+            print(self.game.created, self.game.completed)
 
         async_to_sync(self.channel_layer.group_send)(
             self.room_group_name,
