@@ -6,6 +6,10 @@ from .models import Minesweeper
 
 
 class MinesweeperConsumer(WebsocketConsumer):
+    def __init__(self, *args, **kwargs):
+        super().__init__(args, kwargs)
+        self.game = None
+
     def connect(self):
         user = User.objects.get(username=self.scope['user'])
         game = Minesweeper.create(user)
@@ -21,13 +25,16 @@ class MinesweeperConsumer(WebsocketConsumer):
         if 'command' in text_data_json.keys():
             command = text_data_json['command']
             if command == 'set':
-                # TODO Create new board
-                size = text_data_json['size']
-                mine_cnt = text_data_json['num']
+                size = int(text_data_json['size'])
+                mine_cnt = int(text_data_json['num'])
+
+                Minesweeper.create_board(self.game, size, mine_cnt)
                 pass
             if command == 'uncover':
                 # TODO Uncover selected cell and send result
-                x, y = text_data_json['pos']
+                print(text_data_json['pos'])
+                x, y = tuple(map(int, text_data_json['pos'].split(' ')))
+                self.send(text_data=str(Minesweeper.uncover(self.game, x, y)))
                 pass
             if command == 'flag':
                 # TODO Mark cell as flagged

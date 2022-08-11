@@ -73,6 +73,10 @@ function right_click(x, y) {
 function send_command(command, x, y) {
     socket.send(JSON.stringify({
         command: command,
-        pos: (x, y)
+        pos: x + ' ' + y
     }));
+}
+
+socket.onmessage = (event) => {
+    console.log(event.data);
 }
