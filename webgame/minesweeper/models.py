@@ -35,7 +35,7 @@ class Minesweeper(models.Model):
         board_arr = [[0 for _ in range(size)] for _ in range(size)]
 
         # Place mine
-        for i in range(mine_cnt):
+        for _ in range(mine_cnt):
             x = random.randrange(0, size - 1)
             y = random.randrange(0, size - 1)
             board_arr[x][y] = -1
@@ -53,7 +53,7 @@ class Minesweeper(models.Model):
                 cnt = 0
                 for k in range(8):
                     x = i + dx[k]
-                    y = i + dy[k]
+                    y = j + dy[k]
 
                     if x < 0 or x >= size or y < 0 or y >= size:
                         continue
