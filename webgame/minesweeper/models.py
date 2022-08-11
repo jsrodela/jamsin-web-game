@@ -65,24 +65,29 @@ class Minesweeper(models.Model):
         self.board = json.dumps(board_arr)
         self.save()
 
-    def uncover(self, x, y,size,uncov_arr,done_arr):
+    def uncover(self, x, y, uncov_arr, done_arr):
         board_arr = json.loads(self.board)
-        done_arr.append((x,y))
+        done_arr.append((x, y))
+        # print(done_arr)
         if board_arr[x][y] == 0:
             dx = [-1, 0, 1, -1, 1, -1, 0, 1]
             dy = [-1, -1, -1, 0, 0, 1, 1, 1]
             for k in range(8):
                 tx = x + dx[k]
                 ty = y + dy[k]
+
+                if tx < 0 or tx >= len(board_arr) or ty < 0 or ty >= len(board_arr[0]):
+                    continue
+
                 done = False
-                for px,py in done_arr:
-                    if px==tx and py == ty:
+                for px, py in done_arr:
+                    if px == tx and py == ty:
                         done = True
                         break
-                if done:    continue                        
-                if tx < 0 or tx >= size or ty < 0 or ty >= size:
+                if done:
                     continue
-                
-                return self.uncover(tx,ty,size,uncov_arr)
-        else:
-            return uncov_arr.append({'x':x,'y':y,'value':board_arr[x][y]})
+
+                uncov_arr, done_arr = self.uncover(tx, ty, uncov_arr, done_arr)
+
+        uncov_arr.append({'x': x, 'y': y, 'value': board_arr[x][y]})
+        return uncov_arr, done_arr

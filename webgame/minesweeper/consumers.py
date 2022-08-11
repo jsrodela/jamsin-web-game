@@ -35,11 +35,9 @@ class MinesweeperConsumer(WebsocketConsumer):
                 print(text_data_json['pos'])
                 x, y = text_data_json['pos']
 
-                #data = {'command': 'uncover', 'pos': f'{x} {y}', 'value': str(Minesweeper.uncover(self.game, x, y,size))}
-                uncov_arr=[]
-                done_arr=[]
-                data = {'command': 'uncover', 'cells':Minesweeper.uncover(self.game, x, y,size,uncov_arr,done_arr)}
+                data = {'command': 'uncover', 'cells': Minesweeper.uncover(self.game, x, y, [], [])[0]}
                 self.send(json.dumps(data))
+                print(data)
                 pass
             if command == 'flag':
                 # TODO Mark cell as flagged

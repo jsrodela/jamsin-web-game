@@ -73,10 +73,31 @@ function right_click(x, y) {
 function send_command(command, x, y) {
     socket.send(JSON.stringify({
         command: command,
-        pos: x + ' ' + y
+        pos: [x,y]
     }));
 }
 
+function uncover(x, y, value) {
+    const table = document.getElementById('game_table');
+    const cell = table.rows[x].cells[y]
+    cell.className = 'uncovered';
+    cell.innerHTML = value;
+}
+
 socket.onmessage = (event) => {
-    console.log(event.data);
+    const data = JSON.parse(event.data);
+    console.log(data);
+
+    switch(data.command) {
+        case 'uncover':
+            const cells = data.cells;
+            for(let i=0;i<cells.length;i++) {
+                const cell = cells[i];
+                uncover(cell.x, cell.y, cell.value);
+            }
+            break;
+        default:
+            console.log(data);
+            break;
+    }
 }
