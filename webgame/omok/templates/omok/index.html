@@ -1,8 +1,16 @@
 {% extends 'base.html' %}
 
+{% load static%}
+
 {% block title %}Omok{% endblock title %}
+
+{% block head %}
+<link rel="stylesheet" href="{% static 'omok/style.css' %}">
+{% endblock head %}
 
 {% block content %}
 <h1>Play omok game</h1>
+<div id='area'></div>
 <p><a href="{% url 'lobby:index' %}">Back to lobby</a></p>
+<script src="{% static 'omok/script.js' %}"></script>
 {% endblock content %}
