@@ -34,11 +34,8 @@ class Minesweeper(models.Model):
     def create_board(self, size, mine_cnt):
         board_arr = [[0 for _ in range(size)] for _ in range(size)]
 
-        # Place mine
-        for _ in range(mine_cnt):
-            x = random.randrange(0, size - 1)
-            y = random.randrange(0, size - 1)
-            board_arr[x][y] = -1
+        for i in random.sample(range(size ** 2), mine_cnt):
+            board_arr[int(i / size)][i % size] = -1
 
         # 좌상단 -> 우하단
         dx = [-1, 0, 1, -1, 1, -1, 0, 1]
