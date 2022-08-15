@@ -22,4 +22,4 @@ staticfiles/
 db.sqlite3
 
 # Settings
-settings.json
+webgame/settings.json
