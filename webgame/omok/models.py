@@ -3,7 +3,7 @@ import datetime
 from django.contrib.auth.models import User
 from django.db import models
 
-from .omok import omokGame
+from .omok import OmokGame
 
 class Omok(models.Model):
     creator = models.ForeignKey(
@@ -31,4 +31,4 @@ class Omok(models.Model):
         self.save()
 
     def create_board(self):
-        self.board = omokGame(15)
+        self.game = OmokGame()
