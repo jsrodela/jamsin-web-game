@@ -17,11 +17,7 @@ function set_game() {
     size = parseInt(document.getElementById("size").value); //판 사이즈
     num = parseInt(document.getElementById("num").value); //지뢰 개수
 
-    socket.send(JSON.stringify({
-        command: 'set',
-        size: size,
-        num: num
-    }));
+    send_command('set', {'size': size,'num': num});
 
     set_table(size);
 
@@ -50,7 +46,7 @@ function set_table(s) //int
 function left_click(x, y) {
     return function () {
         if (this.className == "covered" && this.innerHTML != "🚩") {
-            send_command("uncover", x, y);
+            send_command("uncover", {pos: [x, y]});
             this.className = "uncovered";
         }
     };
@@ -60,21 +56,19 @@ function right_click(x, y) {
     return function () {
         if (this.className == "covered") {
             if (this.innerHTML == "") {
-                send_command("flag", x, y);
+                send_command("flag", {pos:[x, y]});
                 this.innerHTML = "🚩";
             } else {
-                send_command("unflag", x, y);
+                send_command("unflag", {pos:[x, y]});
                 this.innerHTML = "";
             }
         }
     };
 }
 
-function send_command(command, x, y) {
-    socket.send(JSON.stringify({
-        command: command,
-        pos: [x,y]
-    }));
+function send_command(command, data) { // string, object (can be empty)
+    data['command'] = command;
+    socket.send(JSON.stringify(data));
 }
 
 function uncover(x, y, value) {
@@ -86,7 +80,6 @@ function uncover(x, y, value) {
 
 socket.onmessage = (event) => {
     const data = JSON.parse(event.data);
-    console.log(data);
 
     switch(data.command) {
         case 'uncover':
