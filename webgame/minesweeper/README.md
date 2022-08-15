@@ -25,7 +25,7 @@
 - 깃발 설치 (flag)
 ```
 {
-  "command" : "uncover",
+  "command" : "flag",
   "pos" : [ x좌표, y좌표 ]
 }
 ```
@@ -33,7 +33,7 @@
 - 깃발 회수 (unflag)
 ```
 {
-  "command" : "uncover",
+  "command" : "unflag",
   "pos" : [ x좌표, y좌표 ]
 }
 ```
