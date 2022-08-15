@@ -3,6 +3,7 @@ import datetime
 from django.contrib.auth.models import User
 from django.db import models
 
+from .omok import omokGame
 
 class Omok(models.Model):
     creator = models.ForeignKey(
@@ -10,8 +11,10 @@ class Omok(models.Model):
     opponent = models.ForeignKey(
         User, on_delete=models.PROTECT, related_name='omok_opponent', null=True)
 
-    moves = models.TextField(null=True)
-    chat = models.TextField(null=True)
+    # Game log
+    moves = models.JSONField(null=True)
+    # Chat log
+    chat = models.JSONField(null=True)
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4)
 
@@ -26,3 +29,6 @@ class Omok(models.Model):
     def complete(self):
         self.completed = datetime.datetime.now()
         self.save()
+
+    def create_board(self):
+        self.board = omokGame(15)

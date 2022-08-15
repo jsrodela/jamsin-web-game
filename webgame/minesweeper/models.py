@@ -14,8 +14,8 @@ class Minesweeper(models.Model):
     # mine: -1 / number: number of mines near 3x3
     board = models.JSONField(default=dict)
 
-    # Save content as json string
-    moves = models.TextField(null=True)
+    # Game log
+    moves = models.JSONField(null=True)
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4)
 
