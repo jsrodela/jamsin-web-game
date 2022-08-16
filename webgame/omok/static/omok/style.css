@@ -1,5 +1,11 @@
 .table_border {
   border-collapse: collapse;
+  width: 750px;
+  height: 750px;;
+}
+
+#game_table {
+  background-image: url("board.png");
 }
 
 td {
@@ -8,18 +14,15 @@ td {
   padding: 0;
   text-align: center;
   font-size: 30px;
+  background-size: contain;
 }
 
-img {
-  vertical-align: bottom;
+.black {
+  background-image: url("black.png");
 }
 
-.covered {
-  background-color: #d3d3d3;
-}
-
-.uncovered {
-  background-color: #ffffff;
+.white {
+  background-image: url("white.png");
 }
 
 .button {
