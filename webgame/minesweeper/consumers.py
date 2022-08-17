@@ -26,21 +26,19 @@ class MinesweeperConsumer(WebsocketConsumer):
             command = text_data_json['command']
 
             if command == 'set':
-                size = int(text_data_json['size'])
+                width = int(text_data_json['width'])
+                height = int(text_data_json['height'])
                 mine_cnt = int(text_data_json['num'])
 
-                Minesweeper.create_board(self.game, size, mine_cnt)
+                Minesweeper.create_board(self.game, width, height, mine_cnt)
                 pass
 
             elif command == 'uncover':
-                # TODO Uncover selected cell and send result
-                print(text_data_json['pos'])
                 x, y = text_data_json['pos']
 
-                data = {'command': 'uncover', 'cells': Minesweeper.uncover(self.game, x, y, [], [])[0]}
+                data = {'command': 'uncover', 'cells': Minesweeper.uncover(
+                    self.game, x, y, [], [])[0]}
                 self.send(json.dumps(data))
-                print(data)
-                pass
 
             elif command == 'flag':
                 # TODO Mark cell as flagged

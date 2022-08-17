@@ -31,19 +31,20 @@ class Minesweeper(models.Model):
         self.completed = datetime.datetime.now()
         self.save()
 
-    def create_board(self, size, mine_cnt):
-        board_arr = [[0 for _ in range(size)] for _ in range(size)]
+    def create_board(self, width, height, mine_cnt):
+        # board_arr[x][y]
+        board_arr = [[0 for _ in range(height)] for _ in range(width)]
 
-        for i in random.sample(range(size ** 2), mine_cnt):
-            board_arr[int(i / size)][i % size] = -1
+        for i in random.sample(range(width * height), mine_cnt):
+            board_arr[i // height][i % height] = -1
 
         # 좌상단 -> 우하단
         dx = [-1, 0, 1, -1, 1, -1, 0, 1]
         dy = [-1, -1, -1, 0, 0, 1, 1, 1]
 
         # Generate number
-        for i in range(size):
-            for j in range(size):
+        for i in range(width):
+            for j in range(height):
                 if board_arr[i][j] == -1:
                     continue
 
@@ -52,7 +53,7 @@ class Minesweeper(models.Model):
                     x = i + dx[k]
                     y = j + dy[k]
 
-                    if x < 0 or x >= size or y < 0 or y >= size:
+                    if x < 0 or x >= width or y < 0 or y >= height:
                         continue
 
                     if board_arr[x][y] == -1:
@@ -65,7 +66,7 @@ class Minesweeper(models.Model):
     def uncover(self, x, y, uncov_arr, done_arr):
         board_arr = json.loads(self.board)
         done_arr.append((x, y))
-        # print(done_arr)
+
         if board_arr[x][y] == 0:
             dx = [-1, 0, 1, -1, 1, -1, 0, 1]
             dy = [-1, -1, -1, 0, 0, 1, 1, 1]

@@ -6,40 +6,54 @@ document.body.oncontextmenu = () => { return false; };
 document.body.onselectstart = () => { return false; };
 document.body.ondragstart = () => { return false; };
 
-let size;
 let num;
-let tdlist;
+let tableElm;
 
 const startBtn = document.getElementById("startBtn");
 startBtn.addEventListener("click", set_game);
 
+const sizeWidthInput = document.getElementById("size-width");
+const sizeHeightInput = document.getElementById("size-height");
+const numInput = document.getElementById("num");
+
+const inputList = [sizeWidthInput, sizeHeightInput, numInput];
+inputList.forEach(inputElm => {
+    inputElm.addEventListener("keypress", (event) => {
+        if (event.key == "Enter") {
+            if (inputList.every((element) => { return element.value; })) {
+                set_game();
+            }
+        }
+    });
+});
+
 function set_game() {
-    size = parseInt(document.getElementById("size").value); //판 사이즈
-    num = parseInt(document.getElementById("num").value); //지뢰 개수
+    width = parseInt(sizeWidthInput.value); // Board width (cells)
+    height = parseInt(sizeHeightInput.value); // Board height (cells)
+    num = parseInt(numInput.value); // Number of mines
 
-    send_command('set', { 'size': size, 'num': num });
+    send_command('set', { 'width': width, 'height': height, 'num': num });
 
-    set_table(size);
+    set_table(width, height);
 
-    tdlist = document.getElementById("game_table").getElementsByTagName("td"); //테이블 td태그
-    for (let i = 0; i < size; i++) {
-        for (let j = 0; j < size; j++) {
-            tdlist[size * i + j].addEventListener("click", left_click(i, j));
-            tdlist[size * i + j].addEventListener("contextmenu", right_click(i, j));
+    tableElm = document.getElementById('game_table');
+    for (let x = 0; x < width; x++) {
+        for (let y = 0; y < height; y++) {
+            tableElm.rows[y].cells[x].addEventListener("click", left_click(x, y));
+            tableElm.rows[y].cells[x].addEventListener("contextmenu", right_click(x, y));
         }
     }
 }
 
-function set_table(s) //int
-{
-    let tag = "<table id=\"game_table\" class=\"table_border\">";
-    for (let i = 1; i <= s; i++) {
-        tag += "<tr>";
-        for (let j = 1; j <= s; j++)
-            tag += "<td id=" + ((i - 1) * s + j - 1) + " class=\"covered\"></td>";
-        tag += "</tr>";
+function set_table(width, height) {
+    let tag = '<table id="game_table" class="table_border">';
+    for (let y = 1; y <= height; y++) {
+        tag += '<tr>';
+        for (let x = 1; x <= width; x++)
+            tag += '<td class="covered"></td>';
+        tag += '</tr>';
     }
-    tag += "</table>";
+    tag += '</table>';
     document.getElementById("area").innerHTML = tag;
 }
 
@@ -72,8 +86,7 @@ function send_command(command, data) { // string, object (can be empty)
 }
 
 function uncover(x, y, value) {
-    const table = document.getElementById('game_table');
-    const cell = table.rows[x].cells[y];
+    const cell = tableElm.rows[y].cells[x];
     cell.className = 'uncovered';
     if (value == -1) {
         cell.innerHTML = '💥';
