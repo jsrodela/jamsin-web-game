@@ -6,10 +6,10 @@ from django.db import models
 from .omok import OmokGame
 
 class Omok(models.Model):
-    creator = models.ForeignKey(
-        User, on_delete=models.PROTECT, related_name='omok_creator')
-    opponent = models.ForeignKey(
-        User, on_delete=models.PROTECT, related_name='omok_opponent', null=True)
+    black = models.ForeignKey(
+        User, on_delete=models.PROTECT, related_name='omok_black', null=True)
+    white = models.ForeignKey(
+        User, on_delete=models.PROTECT, related_name='omok_white', null=True)
 
     # Game log
     moves = models.JSONField(null=True)
@@ -22,13 +22,10 @@ class Omok(models.Model):
     completed = models.DateTimeField(null=True)
 
     def create(user):
-        game = Omok(creator=user)
+        game = Omok(black=user)
         game.save()
         return game
 
     def complete(self):
         self.completed = datetime.datetime.now()
         self.save()
-
-    def create_board(self):
-        self.game = OmokGame()
