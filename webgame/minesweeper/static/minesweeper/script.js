@@ -114,6 +114,9 @@ socket.onmessage = (event) => {
                 uncover(cell.x, cell.y, cell.value);
             }
             break;
+        case 'end':
+            console.log(data);
+            break;
         default:
             console.log(data);
             break;

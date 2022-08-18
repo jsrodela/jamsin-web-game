@@ -65,7 +65,15 @@ class Minesweeper(models.Model):
         self.board = json.dumps(board_arr)
         self.save()
 
-    def uncover(self, x, y, uncov_arr, done_arr):
+    def uncover(self, x, y):
+        board_arr = json.loads(self.board)
+
+        if board_arr[x][y] == -1:  # end
+            return {'command': 'end', 'cell': {'x': x, 'y': y, 'value': -1}}
+
+        return {'command': 'uncover', 'cells': Minesweeper.get_uncover(self, x, y, [], [])[0]}
+
+    def get_uncover(self, x, y, uncov_arr, done_arr):
         board_arr = json.loads(self.board)
         done_arr.append((x, y))
 
@@ -87,7 +95,7 @@ class Minesweeper(models.Model):
                 if done:
                     continue
 
-                uncov_arr, done_arr = self.uncover(tx, ty, uncov_arr, done_arr)
+                uncov_arr, done_arr = self.get_uncover(tx, ty, uncov_arr, done_arr)
 
         uncov_arr.append({'x': x, 'y': y, 'value': board_arr[x][y]})
         return uncov_arr, done_arr

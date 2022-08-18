@@ -36,8 +36,7 @@ class MinesweeperConsumer(WebsocketConsumer):
                 if not self.game.board:
                     Minesweeper.create_board(self.game, self.width, self.height, self.mine_cnt, x, y)
 
-                data = {'command': 'uncover', 'cells': Minesweeper.uncover(
-                    self.game, x, y, [], [])[0]}
+                data = Minesweeper.uncover(self.game, x, y)
                 self.send(json.dumps(data))
 
             elif command == 'flag':
