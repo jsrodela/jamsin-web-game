@@ -8,6 +8,7 @@ document.body.ondragstart = () => { return false; };
 
 let num;
 let tableElm;
+let point = 0;
 
 const title = document.getElementById('title');
 
@@ -122,17 +123,32 @@ function send_command(command, data) { // string, object (can be empty)
 
 function uncover(x, y, value) {
     const cell = tableElm.rows[y].cells[x];
+    if (!cell.classList.contains('covered')) {
+        return;
+    }
     cell.classList.remove('covered');
     cell.classList.add('uncovered');
+    switch (value) {
+        case -1:
+            cell.innerHTML = '💥';
+            break;
+        case -2:
+            cell.innerHTML = '🎆';
+            break;
+        default:
+            if (value == 0) {
+                cell.innerHTML = '';
+            } else {
+                cell.innerHTML = value;
+                cell.classList.add(`num${value}`);
+            }
+            point++;
+
+    }
     if (value == -1) { // mine
-        cell.innerHTML = '💥';
     } else if (value == -2) { // clicked mine
-        cell.innerHTML = '🎆';
     } else if (value == 0) {
-        cell.innerHTML = '';
     } else {
-        cell.innerHTML = value;
-        cell.classList.add(`num${value}`);
     }
 }
 
@@ -146,6 +162,10 @@ socket.onmessage = (event) => {
                 const cell = cells[i];
                 uncover(cell.x, cell.y, cell.value);
             }
+            if (point == width * height - num) {
+                title.innerHTML = `클리어 🎉🎉\n점수: ${point}`;
+                socket.close();
+            }
             break;
 
         case 'end':
@@ -158,7 +178,7 @@ socket.onmessage = (event) => {
             }
 
             uncover(click.x, click.y, -2);
-            title.innerHTML = '지뢰를 밟았습니다'
+            title.innerHTML = `지뢰를 밟았습니다\n점수: ${point}`;
             socket.close();
             break;
         default:
