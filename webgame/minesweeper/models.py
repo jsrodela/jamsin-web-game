@@ -35,9 +35,9 @@ class Minesweeper(models.Model):
         # board_arr[x][y]
         board_arr = [[0 for _ in range(height)] for _ in range(width)]
 
-        for i in random.sample(range(width * height), mine_cnt):
-            while max(abs(x - i//height), abs(y - i % height)) < 2:
-                i = random.randint(0, width * height)
+        cells = list(filter(lambda i: max(abs(x - i//height), abs(y - i % height)) > 1, range(width * height)))
+
+        for i in random.sample(cells, mine_cnt):
             board_arr[i // height][i % height] = -1
 
         # 좌상단 -> 우하단
