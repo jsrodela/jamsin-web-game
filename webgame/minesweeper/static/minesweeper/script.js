@@ -1,5 +1,5 @@
 const socket = new WebSocket(
-    "ws://" + window.location.host + "/ws/minesweeper/"
+    'ws://' + window.location.host + '/ws/minesweeper/'
 );
 
 document.body.oncontextmenu = () => { return false; };
@@ -9,22 +9,21 @@ document.body.ondragstart = () => { return false; };
 let num;
 let tableElm;
 
-const startBtn = document.getElementById("startBtn");
-startBtn.addEventListener("click", set_game);
+const startBtn = document.getElementById('startBtn');
+startBtn.addEventListener('click', set_game);
 
-const sizeWidthInput = document.getElementById("size-width");
-const sizeHeightInput = document.getElementById("size-height");
-const numInput = document.getElementById("num");
+const sizeWidthInput = document.getElementById('size-width');
+const sizeHeightInput = document.getElementById('size-height');
+const numInput = document.getElementById('num');
 
 const inputList = [sizeWidthInput, sizeHeightInput, numInput];
-inputList.forEach(inputElm => {
-    inputElm.addEventListener("keypress", (event) => {
-        if (event.key == "Enter") {
-            if (inputList.every((element) => { return element.value; })) {
-                set_game();
-            }
+document.addEventListener('keypress', (event) => {
+    if (event.key == 'Enter') {
+        if (inputList.every((element) => { return element.value; })) {
+            set_game();
+            document.removeEventListener('keypress');
         }
-    });
+    }
 });
 
 function set_game() {
@@ -36,45 +35,50 @@ function set_game() {
 
     set_table(width, height);
 
-    tableElm = document.getElementById('game_table');
     for (let x = 0; x < width; x++) {
         for (let y = 0; y < height; y++) {
-            tableElm.rows[y].cells[x].addEventListener("click", left_click(x, y));
-            tableElm.rows[y].cells[x].addEventListener("contextmenu", right_click(x, y));
+            tableElm.rows[y].cells[x].addEventListener('click', left_click(x, y));
+            tableElm.rows[y].cells[x].addEventListener('contextmenu', right_click(x, y));
         }
     }
 }
 
 function set_table(width, height) {
-    let tag = '<table id="game_table" class="table_border">';
+    tableElm = document.createElement('table');
+    tableElm.classList.add('table-border');
+    tableElm.id = 'game-table';
     for (let y = 1; y <= height; y++) {
-        tag += '<tr>';
-        for (let x = 1; x <= width; x++)
-            tag += '<td class="covered"></td>';
-        tag += '</tr>';
+        const tr = document.createElement('tr');
+        for (let x = 1; x <= width; x++) {
+            const td = document.createElement('td');
+            td.classList.add('covered');
+            td.classList.add(`color${((x + y) & 1) + 1}`);
+            tr.appendChild(td);
+        }
+        tableElm.appendChild(tr);
     }
-    tag += '</table>';
-    document.getElementById("area").innerHTML = tag;
+    const areaDiv = document.getElementById('area');
+    areaDiv.innerHTML = '';
+    areaDiv.appendChild(tableElm);
 }
 
 function left_click(x, y) {
     return function () {
-        if (this.className == "covered" && this.innerHTML != "🚩") {
-            send_command("uncover", { pos: [x, y] });
-            this.className = "uncovered";
+        if (this.classList.contains('covered') && this.innerHTML != '🚩') {
+            send_command('uncover', { pos: [x, y] });
         }
     };
 }
 
 function right_click(x, y) {
     return function () {
-        if (this.className == "covered") {
-            if (this.innerHTML == "") {
-                send_command("flag", { pos: [x, y] });
-                this.innerHTML = "🚩";
+        if (this.classList.contains('covered')) {
+            if (this.innerHTML == '') {
+                send_command('flag', { pos: [x, y] });
+                this.innerHTML = '🚩';
             } else {
-                send_command("unflag", { pos: [x, y] });
-                this.innerHTML = "";
+                send_command('unflag', { pos: [x, y] });
+                this.innerHTML = '';
             }
         }
     };
@@ -87,13 +91,15 @@ function send_command(command, data) { // string, object (can be empty)
 
 function uncover(x, y, value) {
     const cell = tableElm.rows[y].cells[x];
-    cell.className = 'uncovered';
+    cell.classList.remove('covered');
+    cell.classList.add('uncovered');
     if (value == -1) {
         cell.innerHTML = '💥';
     } else if (value == 0) {
         /* Leave blank */
     } else {
         cell.innerHTML = value;
+        cell.classList.add(`num${value}`);
     }
 }
 
