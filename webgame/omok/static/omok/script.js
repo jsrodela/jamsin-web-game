@@ -78,9 +78,32 @@ socket.onmessage = function (e) {
   if (data.move) {
     const [x, y] = data.move;
     tdlist[size * y + x].className = data.color;
-    if (data.color  != color) {
+    if (data.color != color) {
       turn = true;
     }
+  }
+
+  if (data.result) {
+    turn = false;
+    switch (data.result) {
+      case 1:
+        if (color == 'black') {
+          alert("You win!");
+        } else {
+          alert("You lose!");
+        }
+        break;
+      case 2:
+        if (color == 'black') {
+          alert("You lose!");
+        } else {
+          alert("You win!");
+        }
+        break;
+      case 3:
+        alert("Draw");
+    }
+    socket.close();
   }
 };
 
