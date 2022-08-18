@@ -9,8 +9,9 @@ from .omok import OmokGame
 
 from .models import Omok
 
-ongoing_games:Dict[str, OmokGame] = {}
-waiting_games:Dict[str, OmokGame] = {}
+ongoing_games: Dict[str, OmokGame] = {}
+waiting_games: Dict[str, OmokGame] = {}
+
 
 class OmokConsumer(WebsocketConsumer):
     def connect(self):
@@ -111,7 +112,8 @@ class OmokConsumer(WebsocketConsumer):
                     {
                         'type': 'game.message',
                         'client': client,
-                        'move': pos
+                        'move': pos,
+                        'color': self.color,
                     }
                 )
 
@@ -135,7 +137,8 @@ class OmokConsumer(WebsocketConsumer):
         if 'move' in event.keys():
             pos = event['move']
             self.send(text_data=json.dumps({
-                'move': pos
+                'move': pos,
+                'color': event['color'],
             }))
 
     def leave(self, event):
@@ -149,6 +152,7 @@ class OmokConsumer(WebsocketConsumer):
         else:
             opponent_color = 'black'
         self.send(text_data=json.dumps({
+            'init': True,
             'color': self.color,
             'opponentColor': opponent_color,
         }))
