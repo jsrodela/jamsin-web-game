@@ -9,8 +9,9 @@ from .omok import OmokGame
 
 from .models import Omok
 
-ongoing_games:Dict[str, OmokGame] = {}
-waiting_games:Dict[str, OmokGame] = {}
+ongoing_games: Dict[str, OmokGame] = {}
+waiting_games: Dict[str, OmokGame] = {}
+
 
 class OmokConsumer(WebsocketConsumer):
     def connect(self):
@@ -102,18 +103,28 @@ class OmokConsumer(WebsocketConsumer):
                 if not ongoing_games[self.game.id].move(*pos):
                     return
 
-                # TODO Check result and send if the game is finished
-                ongoing_games[self.game.id].check_result()
-
                 # Send move position to group
                 async_to_sync(self.channel_layer.group_send)(
                     self.room_group_name,
                     {
                         'type': 'game.message',
                         'client': client,
-                        'move': pos
+                        'move': pos,
+                        'color': self.color,
                     }
                 )
+
+                # Check result and send if the game is finished
+                result = ongoing_games[self.game.id].check_result()
+
+                if result:
+                    async_to_sync(self.channel_layer.group_send)(
+                        self.room_group_name,
+                        {
+                            'type': 'game.end',
+                            'result': result,
+                        }
+                    )
 
     # Receive message from room group
 
@@ -135,8 +146,14 @@ class OmokConsumer(WebsocketConsumer):
         if 'move' in event.keys():
             pos = event['move']
             self.send(text_data=json.dumps({
-                'move': pos
+                'move': pos,
+                'color': event['color'],
             }))
+
+    def game_end(self, event):
+        self.send(text_data=json.dumps({
+            'result': event['result']
+        }))
 
     def leave(self, event):
         if event['client'] == self.scope['client']:
@@ -149,6 +166,7 @@ class OmokConsumer(WebsocketConsumer):
         else:
             opponent_color = 'black'
         self.send(text_data=json.dumps({
+            'init': True,
             'color': self.color,
             'opponentColor': opponent_color,
         }))

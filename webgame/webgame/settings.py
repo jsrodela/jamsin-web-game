@@ -38,6 +38,8 @@ if settings['Production']:
     SECURE_SSL_REDIRECT = True
     SESSION_COOKIE_SECURE = True
     CSRF_COOKIE_SECURE = True
+else:
+    SECURE_CROSS_ORIGIN_OPENER_POLICY = None
 
 # Application definition
 

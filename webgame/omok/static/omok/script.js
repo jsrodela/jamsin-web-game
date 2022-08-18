@@ -45,6 +45,7 @@ function left_click(x, y) {
       return;
     }
     if (this.className == "none") {
+      turn = false;
       send_command("place", x, y);
     }
   };
@@ -65,7 +66,7 @@ socket.onmessage = function (e) {
     console.log("Room id: " + data.room_id);
   }
 
-  if (data.color) {
+  if (data.init) {
     /* Check players' color and start the game */
     color = data.color;
     opponentColor = data.opponentColor;
@@ -76,15 +77,33 @@ socket.onmessage = function (e) {
 
   if (data.move) {
     const [x, y] = data.move;
-    if (turn) {
-      /* Place my stone */
-      turn = false;
-      tdlist[size * y + x].className = color;
-    } else {
-      /* Place opponent's stone */
+    tdlist[size * y + x].className = data.color;
+    if (data.color != color) {
       turn = true;
-      tdlist[size * y + x].className = opponentColor;
     }
+  }
+
+  if (data.result) {
+    turn = false;
+    switch (data.result) {
+      case 1:
+        if (color == 'black') {
+          alert("You win!");
+        } else {
+          alert("You lose!");
+        }
+        break;
+      case 2:
+        if (color == 'black') {
+          alert("You lose!");
+        } else {
+          alert("You win!");
+        }
+        break;
+      case 3:
+        alert("Draw");
+    }
+    socket.close();
   }
 };
 
