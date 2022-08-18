@@ -125,7 +125,7 @@ function uncover(x, y, value) {
     if (value == -1) {
         cell.innerHTML = '💥';
     } else if (value == 0) {
-        /* Leave blank */
+        cell.innerHTML = '';
     } else {
         cell.innerHTML = value;
         cell.classList.add(`num${value}`);
