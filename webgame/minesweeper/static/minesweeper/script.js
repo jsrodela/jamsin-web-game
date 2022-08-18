@@ -21,7 +21,7 @@ document.addEventListener('keypress', (event) => {
     if (event.key == 'Enter') {
         if (inputList.every((element) => { return element.value; })) {
             set_game();
-            document.removeEventListener('keypress');
+            //document.removeEventListener('keypress');
         }
     }
 });
@@ -64,8 +64,37 @@ function set_table(width, height) {
 
 function left_click(x, y) {
     return function () {
-        if (this.classList.contains('covered') && this.innerHTML != '🚩') {
-            send_command('uncover', { pos: [x, y] });
+        if (this.classList.contains('covered')) {
+            if (this.innerHTML != '🚩') {
+                send_command('uncover', { pos: [x, y] });
+            }
+        } else {
+            const num = parseInt(this.innerHTML);
+            if (num != NaN) {
+                /* 주변 깃발 합 vs 현재 칸 숫자*/
+                let flags = 0;
+                let adjacentCells = [];
+                for (let i = 0; i < 9; i++) {
+                    const _x = x - 1 + i % 3;
+                    const _y = y - 1 + parseInt(i / 3);
+                    if (_x >= 0 && _x < width && _y >= 0 && _y < height) {
+                        adjacentCells.push([tableElm.rows[_y].cells[_x], [_x, _y]]);
+                    }
+                }
+                adjacentCells.forEach(element => {
+                    if (element[0].innerHTML == '🚩') {
+                        flags++;
+                    }
+                });
+                if (flags == num) {
+                    adjacentCells.forEach(element => {
+                        if (element[0].classList.contains('covered') && element[0].innerHTML != '🚩') {
+                            send_command('uncover', { pos: element[1] });
+                            console.log(element);
+                        }
+                    });
+                }
+            }
         }
     };
 }
