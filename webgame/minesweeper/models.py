@@ -31,11 +31,13 @@ class Minesweeper(models.Model):
         self.completed = datetime.datetime.now()
         self.save()
 
-    def create_board(self, width, height, mine_cnt):
+    def create_board(self, width, height, mine_cnt, x, y):
         # board_arr[x][y]
         board_arr = [[0 for _ in range(height)] for _ in range(width)]
 
         for i in random.sample(range(width * height), mine_cnt):
+            while max(abs(x - i//height), abs(y - i % height)) < 2:
+                i = random.randint(0, width * height)
             board_arr[i // height][i % height] = -1
 
         # 좌상단 -> 우하단

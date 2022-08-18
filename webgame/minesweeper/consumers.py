@@ -26,15 +26,15 @@ class MinesweeperConsumer(WebsocketConsumer):
             command = text_data_json['command']
 
             if command == 'set':
-                width = int(text_data_json['width'])
-                height = int(text_data_json['height'])
-                mine_cnt = int(text_data_json['num'])
-
-                Minesweeper.create_board(self.game, width, height, mine_cnt)
-                pass
+                self.width = int(text_data_json['width'])
+                self.height = int(text_data_json['height'])
+                self.mine_cnt = int(text_data_json['num'])
 
             elif command == 'uncover':
                 x, y = text_data_json['pos']
+
+                if not self.game.board:
+                    Minesweeper.create_board(self.game, self.width, self.height, self.mine_cnt, x, y)
 
                 data = {'command': 'uncover', 'cells': Minesweeper.uncover(
                     self.game, x, y, [], [])[0]}
