@@ -43,8 +43,9 @@ if settings['Production']:
 
 INSTALLED_APPS = [
     'lobby.apps.LobbyConfig',
-    'minesweeper.apps.MinesweeperConfig',
+    'cookie.apps.CookieConfig',
     'omok.apps.OmokConfig',
+    'minesweeper.apps.MinesweeperConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',

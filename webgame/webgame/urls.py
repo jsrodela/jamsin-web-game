@@ -7,5 +7,6 @@ urlpatterns = [
     path('minesweeper/', include('minesweeper.urls')),
     path('omok/', include('omok.urls')),
     path('lobby/', RedirectView.as_view(url='/')),
-    path('', include('lobby.urls'))
+    path('', include('lobby.urls')),
+    path('cookie/', include('cookie.urls'))
 ]
