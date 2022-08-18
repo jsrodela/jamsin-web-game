@@ -13,6 +13,7 @@ class Minesweeper(models.Model):
     # JSON list
     # mine: -1 / number: number of mines near 3x3
     board = models.JSONField(default=dict)
+    mines = models.JSONField(default=dict)
 
     # Game log
     moves = models.JSONField(null=True)
@@ -34,11 +35,15 @@ class Minesweeper(models.Model):
     def create_board(self, width, height, mine_cnt, x, y):
         # board_arr[x][y]
         board_arr = [[0 for _ in range(height)] for _ in range(width)]
+        mine_arr = []
 
         cells = list(filter(lambda i: max(abs(x - i//height), abs(y - i % height)) > 1, range(width * height)))
 
         for i in random.sample(cells, mine_cnt):
-            board_arr[i // height][i % height] = -1
+            x = i // height
+            y = i % height
+            board_arr[x][y] = -1
+            mine_arr.append({'x': x, 'y': y})
 
         # 좌상단 -> 우하단
         dx = [-1, 0, 1, -1, 1, -1, 0, 1]
@@ -63,13 +68,14 @@ class Minesweeper(models.Model):
                 board_arr[i][j] = cnt
 
         self.board = json.dumps(board_arr)
+        self.mines = json.dumps(mine_arr)
         self.save()
 
     def uncover(self, x, y):
         board_arr = json.loads(self.board)
 
         if board_arr[x][y] == -1:  # end
-            return {'command': 'end', 'cell': {'x': x, 'y': y, 'value': -1}}
+            return {'command': 'end', 'click': {'x': x, 'y': y}, 'mines': json.loads(self.mines)}
 
         return {'command': 'uncover', 'cells': Minesweeper.get_uncover(self, x, y, [], [])[0]}
 

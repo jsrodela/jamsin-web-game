@@ -9,6 +9,8 @@ document.body.ondragstart = () => { return false; };
 let num;
 let tableElm;
 
+const title = document.getElementById('title');
+
 const startBtn = document.getElementById('startBtn');
 startBtn.addEventListener('click', set_game);
 
@@ -93,8 +95,10 @@ function uncover(x, y, value) {
     const cell = tableElm.rows[y].cells[x];
     cell.classList.remove('covered');
     cell.classList.add('uncovered');
-    if (value == -1) {
+    if (value == -1) { // mine
         cell.innerHTML = '💥';
+    } else if (value == -2) { // clicked mine
+        cell.innerHTML = '🎆';
     } else if (value == 0) {
         /* Leave blank */
     } else {
@@ -114,8 +118,19 @@ socket.onmessage = (event) => {
                 uncover(cell.x, cell.y, cell.value);
             }
             break;
+
         case 'end':
-            console.log(data);
+            const mines = data.mines;
+            const click = data.click;
+
+            for (let i = 0; i < mines.length; i++) {
+                const mine = mines[i];
+                uncover(mine.x, mine.y, -1);
+            }
+
+            uncover(click.x, click.y, -2);
+            title.innerHTML = '지뢰를 밟았습니다'
+            socket.close();
             break;
         default:
             console.log(data);
