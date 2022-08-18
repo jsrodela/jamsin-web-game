@@ -13,7 +13,7 @@ let color = null;
 let opponentColor = null;
 
 let tdlist;
-let size = 15;
+let size = 19;
 
 function set_game() {
   set_table(size);

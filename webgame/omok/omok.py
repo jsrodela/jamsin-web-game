@@ -2,7 +2,7 @@ import numpy as np
 
 
 class OmokGame():
-    def __init__(self, size: int = 15) -> None:
+    def __init__(self, size: int = 19) -> None:
         self.create_board(size)
 
         # 1: black, 2: white
