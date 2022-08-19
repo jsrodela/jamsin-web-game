@@ -26,7 +26,7 @@ imgs.forEach(element => {
 
             // 다음 이미지 보이기
             element.nextElementSibling.style.display = '';
-        }, 1000, this); // TODO 1000 대신 적당한 화면 전환 시간 넣기
+        }, 500, this); // TODO 1000 대신 적당한 화면 전환 시간 넣기
     });
 
 });
@@ -48,7 +48,7 @@ vid1Elm.addEventListener("ended", function () {
             sourceElm.setAttribute("src", "/static/cookie/문구 1.mp4");
             break;
         case 1:
-            sourceElm.setAttribute("src", "/static/cookie//static/cookie/문구 2.mp4");
+            sourceElm.setAttribute("src", "/static/cookie/문구 2.mp4");
             break;
         case 2:
             sourceElm.setAttribute("src", "/static/cookie/문구 3.mp4");
@@ -99,10 +99,10 @@ vid1Elm.addEventListener("ended", function () {
             sourceElm.setAttribute("src", "/static/cookie/문양.mp4");
             break;
         case 18:
-            sourceElm.setAttribute("src", "/static/cookie/꽝.mp4");
+            sourceElm.setAttribute("src", "/static/cookie/당첨 글.mp4");
             break;
         case 19:
-            sourceElm.setAttribute("src", "/static/cookie/꽝.mp4");
+            sourceElm.setAttribute("src", "/static/cookie/문양.mp4");
             break;
         case 20:
             sourceElm.setAttribute("src", "/static/cookie/꽝.mp4");
