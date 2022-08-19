@@ -31,10 +31,12 @@ imgs.forEach(element => {
 
 });
 
-vid1Elm.addEventListener("click", function () {
+function playvid() {
     this.play();
     setTimeout(() => { aud2.play(); }, 1350);
-});
+    vid1Elm.removeEventListener('click', playvid);
+}
+vid1Elm.addEventListener("click", playvid);
 vid1Elm.addEventListener("ended", function () {
     aud3.play(); this.style.display = "none";
     const video = document.createElement("video");
@@ -43,67 +45,67 @@ vid1Elm.addEventListener("ended", function () {
     video.setAttribute("width", "70%");
     switch (Math.floor(Math.random() * 21)) {
         case 0:
-            sourceElm.setAttribute("src", "문구 1.mp4");
+            sourceElm.setAttribute("src", "/static/cookie/문구 1.mp4");
             break;
         case 1:
-            sourceElm.setAttribute("src", "문구 2.mp4");
+            sourceElm.setAttribute("src", "/static/cookie//static/cookie/문구 2.mp4");
             break;
         case 2:
-            sourceElm.setAttribute("src", "문구 3.mp4");
+            sourceElm.setAttribute("src", "/static/cookie/문구 3.mp4");
             break;
         case 3:
-            sourceElm.setAttribute("src", "문구 4.mp4");
+            sourceElm.setAttribute("src", "/static/cookie/문구 4.mp4");
             break;
         case 4:
-            sourceElm.setAttribute("src", "문구 5.mp4");
+            sourceElm.setAttribute("src", "/static/cookie/문구 5.mp4");
             break;
         case 5:
-            sourceElm.setAttribute("src", "문구 1.mp4");
+            sourceElm.setAttribute("src", "/static/cookie/문구 1.mp4");
             break;
         case 6:
-            sourceElm.setAttribute("src", "문구 2.mp4");
+            sourceElm.setAttribute("src", "/static/cookie/문구 2.mp4");
             break;
         case 7:
-            sourceElm.setAttribute("src", "문구 3.mp4");
+            sourceElm.setAttribute("src", "/static/cookie/문구 3.mp4");
             break;
         case 8:
-            sourceElm.setAttribute("src", "문구 4.mp4");
+            sourceElm.setAttribute("src", "/static/cookie/문구 4.mp4");
             break;
         case 9:
-            sourceElm.setAttribute("src", "문구 5.mp4");
+            sourceElm.setAttribute("src", "/static/cookie/문구 5.mp4");
             break;
         case 10:
-            sourceElm.setAttribute("src", "문구 1.mp4");
+            sourceElm.setAttribute("src", "/static/cookie/문구 1.mp4");
             break;
         case 11:
-            sourceElm.setAttribute("src", "문구 2.mp4");
+            sourceElm.setAttribute("src", "/static/cookie/문구 2.mp4");
             break;
         case 12:
-            sourceElm.setAttribute("src", "문구 3.mp4");
+            sourceElm.setAttribute("src", "/static/cookie/문구 3.mp4");
             break;
         case 13:
-            sourceElm.setAttribute("src", "문구 4.mp4");
+            sourceElm.setAttribute("src", "/static/cookie/문구 4.mp4");
             break;
         case 14:
-            sourceElm.setAttribute("src", "문구 5.mp4");
+            sourceElm.setAttribute("src", "/static/cookie/문구 5.mp4");
             break;
         case 15:
-            sourceElm.setAttribute("src", "당첨 글.mp4");
+            sourceElm.setAttribute("src", "/static/cookie/당첨 글.mp4");
             break;
         case 16:
-            sourceElm.setAttribute("src", "당첨 글.mp4");
+            sourceElm.setAttribute("src", "/static/cookie/당첨 글.mp4");
             break;
         case 17:
-            sourceElm.setAttribute("src", "문양.mp4");
+            sourceElm.setAttribute("src", "/static/cookie/문양.mp4");
             break;
         case 18:
-            sourceElm.setAttribute("src", "꽝.mp4");
+            sourceElm.setAttribute("src", "/static/cookie/꽝.mp4");
             break;
         case 19:
-            sourceElm.setAttribute("src", "꽝.mp4");
+            sourceElm.setAttribute("src", "/static/cookie/꽝.mp4");
             break;
         case 20:
-            sourceElm.setAttribute("src", "꽝.mp4");
+            sourceElm.setAttribute("src", "/static/cookie/꽝.mp4");
             break;
     }
     video.appendChild(sourceElm);

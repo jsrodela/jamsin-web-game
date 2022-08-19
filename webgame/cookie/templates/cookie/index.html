@@ -1,3 +1,5 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,25 +8,26 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
     <title>오늘의 운세는?</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="{% static 'cookie/style.css' %}">
 </head>
 <body>
 
   <div style="text-align:center" id="Videocontainer">
-    <!-- TODO 이미지 src 추가하기, 필요하면 img 태그 더 넣기 -->
-    <img src="" id="img1" width="640" height="360">
-    <img src="" id="img2" style="display: none;" width="640" height="360">
-    <img src="" id="img3" style="display: none;" width="640" height="360">
-    <video id="vid1" width="50%" height="50%" style="display:none;"><source src="포춘쿠키 깨기.mp4" type="video/mp4"></video>
+    <img src="{% static 'cookie/img1.png' %}"d="img1" width="640" height="360">
+    <img src="{% static 'cookie/img2.png' %}" id="img2" style="display: none;" width="640" height="360">
+    <img src="{% static 'cookie/img3.png' %}" id="img3" style="display: none;" width="640" height="360">
+    <img src="{% static 'cookie/img4.png' %}" id="img4" style="display: none;" width="640" height="360">
+    <img src="{% static 'cookie/img5.png' %}" id="img5" style="display: none;" width="640" height="360">
+    <video id="vid1" width="640" height="360" style="display:none;"><source src="{% static 'cookie/포춘쿠키 깨기.mp4' %}" type="video/mp4"></video>
   </div>
 
   <div style="text-align:center" id="audiocontianer">
-    <audio id="aud1"><source src="금가는 소리.mp3" type="audio/mp3"></audio>
-    <audio id="aud2"><source src="완전 깨지는 소리.mp3" type="audio/mp3"></audio>
-    <audio id="aud3"><source src="문구 나오는 소리.mp3" type="audio/mp3"></audio>
+    <audio id="aud1"><source src="{% static 'cookie/금가는 소리.mp3' %}" type="audio/mp3"></audio>
+    <audio id="aud2"><source src="{% static 'cookie/완전 깨지는 소리.mp3' %}" type="audio/mp3"></audio>
+    <audio id="aud3"><source src="{% static 'cookie/문구 나오는 소리.mp3' %}" type="audio/mp3"></audio>
   </div>
 
-  <script src="index.js"></script>
+  <script src="{% static 'cookie/index.js' %}"></script>
 
 </body>
 </html>
